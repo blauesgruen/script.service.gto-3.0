@@ -179,9 +179,9 @@
                         <texturenofocus/>
                         <textcolor>black</textcolor>
                         <align>center</align>
-                        <enable>!IsEmpty(Window(Home).Property(GTO.Info.isInFuture)) + System.HasAddon(service.kn.switchtimer)</enable>
+                        <enable>!String.IsEmpty(Window(Home).Property(GTO.Info.BroadcastID)) + String.IsEqual(Window(Home).Property(GTO.Info.hasTimer),False) + String.IsEqual(Window(Home).Property(GTO.Info.isInFuture),True)</enable>
                         <onclick condition="!System.HasAddon(service.kn.switchtimer)">InstallAddon(service.kn.switchtimer)</onclick>
-                        <onclick condition="System.HasAddon(service.kn.switchtimer)">RunScript(service.kn.switchtimer,action=add,channel=$INFO[Window(Home).Property(GTO.Info.Channel)],icon=$INFO[Window(Home).Property(GTO.Info.Logo)],date=$INFO[Window(Home).Property(GTO.Info.Date)],title=$INFO[Window(Home).Property(GTO.Info.Title)])</onclick>
+                        <onclick condition="System.HasAddon(service.kn.switchtimer)">RunPlugin(plugin://script.service.gto?action=reminder&amp;broadcastid=$INFO[Window(Home).Property(GTO.Info.BroadcastID)]&amp;item=$INFO[Window(Home).Property(GTO.Info.Item)])</onclick>
                         <onclick condition="System.HasAddon(service.kn.switchtimer)">Dialog.Close(all)</onclick>
                     </control>
                     <control type="button" id="21">
@@ -191,8 +191,8 @@
                         <texturenofocus/>
                         <textcolor>black</textcolor>
                         <align>center</align>
-                        <enable>!IsEmpty(Window(Home).Property(GTO.Info.isRunning)) + System.HasAddon(service.kn.switchtimer)</enable>
-                        <onclick>RunScript(script.service.gto,action=switch_channel&amp;pvrid=$INFO[Window(Home).Property(GTO.Info.ChannelID)])</onclick>
+                        <enable>String.IsEqual(Window(Home).Property(GTO.Info.isRunning),True) + !String.IsEqual(Window(Home).Property(GTO.Info.ChannelID),False) + System.HasAddon(service.kn.switchtimer)</enable>
+                        <onclick>RunPlugin(plugin://script.service.gto?action=switch_channel&amp;pvrid=$INFO[Window(Home).Property(GTO.Info.ChannelID)]&amp;item=$INFO[Window(Home).Property(GTO.Info.Item)])</onclick>
                         <onclick>Dialog.Close(all)</onclick>
                     </control>
                     <control type="button" id="22">
@@ -203,7 +203,7 @@
                         <textcolor>black</textcolor>
                         <align>center</align>
                         <enable>!String.IsEmpty(Window(Home).Property(GTO.Info.BroadcastID)) + String.IsEqual(Window(Home).Property(GTO.Info.hasTimer),False)</enable>
-                        <onclick>RunScript(script.service.gto,action=record&amp;broadcastid=$INFO[Window(Home).Property(GTO.Info.BroadcastID)]&amp;blob=$INFO[Window(Home).Property(GTO.Info.BlobID)])</onclick>
+                        <onclick>RunPlugin(plugin://script.service.gto?action=record&amp;broadcastid=$INFO[Window(Home).Property(GTO.Info.BroadcastID)]&amp;item=$INFO[Window(Home).Property(GTO.Info.Item)])</onclick>
                         <onclick>Dialog.Close(all)</onclick>
                     </control>
                     <control type="button" id="23">
@@ -213,6 +213,7 @@
                         <texturenofocus/>
                         <textcolor>black</textcolor>
                         <align>center</align>
+						<onclick>RunPlugin(plugin://script.service.gto?action=getcontent)</onclick>
                         <onclick>Dialog.Close(all)</onclick>
                     </control>
                 </control>
